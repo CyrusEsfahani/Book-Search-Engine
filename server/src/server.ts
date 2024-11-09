@@ -8,9 +8,9 @@ import {
 import {
   expressMiddleware
 } from '@apollo/server/express4';
-import { authenticateToken } from './services/auth-service.js';
+import { authenticateToken } from './services/auth.js';
 import { typeDefs, resolvers } from './schemas/index.js';
-import { start } from 'node:repl';
+
 
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({

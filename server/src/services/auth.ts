@@ -11,7 +11,7 @@ interface JwtPayload {
   email: string,
 }
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateToken = (req: Request) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
   if(req.headers.authorization) {
@@ -22,8 +22,8 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || '', {maxAge: '3h'});
-    req.user = decoded as JwtPayload;
+    const {data}: any = jwt.verify(token, process.env.JWT_SECRET || '', {maxAge: '3h'});
+    req.user = data as JwtPayload;
   } catch (error) {
     console.log(error);
 
