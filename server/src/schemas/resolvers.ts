@@ -1,6 +1,6 @@
 import type IUserContext from '../interfaces/UserContext.js';
 import type IUserDocument from '../interfaces/UserDocument.js';
-import { signToken, AuthenticationError } from '../services/auth-service.js';
+import { signToken, AuthenticationError } from '../services/auth.js';
 import { User } from '../models/index.js';
 
 const resolvers = {
