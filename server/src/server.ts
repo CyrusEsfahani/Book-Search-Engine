@@ -10,6 +10,10 @@ import {
 } from '@apollo/server/express4';
 import { authenticateToken } from './services/auth.js';
 import { typeDefs, resolvers } from './schemas/index.js';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 const PORT = process.env.PORT || 3001;
@@ -35,9 +39,9 @@ app.use ('/graphql', expressMiddleware(server as any,
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../../client/build')));
 
-  app.get('*', (req: Request, res: Response) => {
+  app.get('*', (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
   });
 }
