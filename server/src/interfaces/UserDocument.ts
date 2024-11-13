@@ -4,6 +4,6 @@ export default interface IUserDocument {
     email: string | null;
     password: string | null;
     savedBooks: IBook[];
-    isCorrectPassword: (password: string): Promise<boolean>;
+    isCorrectPassword(password: string): Promise<boolean>;
     bookCount: number | null;
 }
