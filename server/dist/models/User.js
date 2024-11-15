@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-// import schema from Book.js
-import bookSchema from './Book.js';
+import { bookSchema } from './Book.js';
 const userSchema = new Schema({
     username: {
         type: String,

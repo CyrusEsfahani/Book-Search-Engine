@@ -6,7 +6,7 @@ import { User } from '../models/index.js';
 
 const resolvers = {
     Query: {
-      currentUser: async (_parent: any, _args: any, context: IUserContext): Promise<IUserDocument | null> => {
+      me: async (_parent: any, _args: any, context: IUserContext): Promise<IUserDocument | null> => {
         if (context.user) {
           const user = await User.findById(context.user._id).select('-__v -password');
           return user;
@@ -15,12 +15,12 @@ const resolvers = {
       },
     },
     Mutation: {
-      registerUser: async (_parent: any, args: any): Promise<{ token: string; user: IUserDocument }> => {
+      addUser: async (_parent: any, args: any): Promise<{ token: string; user: IUserDocument }> => {
         const newUser = await User.create(args);
         const token = signToken(newUser.username, newUser.email, newUser._id);
         return { token, user: newUser };
       },
-      authenticateUser: async (_parent: any, { email, password }: { email: string; password: string }): Promise<{ token: string; user: IUserDocument }> => {
+      login: async (_parent: any, { email, password }: { email: string; password: string }): Promise<{ token: string; user: IUserDocument }> => {
         const user = await User.findOne({ email });
         if (!user || !(await user.isCorrectPassword(password))) {
           throw new AuthenticationError('Invalid credentials');
@@ -28,7 +28,7 @@ const resolvers = {
         const token = signToken(user.username, user.email, user._id);
         return { token, user };
       },
-      addBook: async (_parent: any, { bookData }: { bookData: IBookInput }, context: IUserContext): Promise<IUserDocument | null> => {
+      saveBook: async (_parent: any, { bookData }: { bookData: IBookInput }, context: IUserContext): Promise<IUserDocument | null> => {
         if (context.user) {
           const updatedUser = await User.findByIdAndUpdate(
             context.user._id,
@@ -39,7 +39,7 @@ const resolvers = {
         }
         throw new AuthenticationError('Not authenticated');
       },
-      deleteBook: async (_parent: any, { bookId }: { bookId: string }, context: IUserContext): Promise<IUserDocument | null> => {
+      removeBook: async (_parent: any, { bookId }: { bookId: string }, context: IUserContext): Promise<IUserDocument | null> => {
         if (context.user) {
           const updatedUser = await User.findByIdAndUpdate(
             context.user._id,

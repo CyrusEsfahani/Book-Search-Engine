@@ -1,7 +1,7 @@
 import {gql} from 'graphql-tag';
 
 const typeDefs = gql`
-    type user {
+    type User {
         _id: ID!
         username: String!
         email: String
@@ -18,9 +18,9 @@ const typeDefs = gql`
     }
     type Auth {
         token: ID!
-        user: user
+        user: User
     }
-    type BookInput {
+    input BookInput {
         authors: [String]
         description: String
         title: String
@@ -29,13 +29,13 @@ const typeDefs = gql`
         link: String
     }
     type Query {
-        me: user
+        me: User
     }
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
-        saveBook(bookData: BookInput!): user
-        removeBook(bookId: ID!): user
+        saveBook(bookData: BookInput!): User
+        removeBook(bookId: ID!): User
     }
     `;
 export default typeDefs;
